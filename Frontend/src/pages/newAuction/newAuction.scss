@@ -1,0 +1,156 @@
+@import "../../variable.scss";
+
+.newAuction {
+    width: 100%;
+    height: auto;
+    padding: 5rem 1rem 3rem 1rem;
+    background: #2c2c2c;
+    .msg {
+        position: absolute;
+        top: 5rem;
+        border-radius: 0.2rem;
+        color: $text-white;
+    }
+    .false,
+    .true {
+        background: red;
+        z-index: 10000;
+        padding: 0.5rem 3rem;
+    }
+    .true {
+        background: green;
+    }
+    div {
+        margin-top: 2rem;
+        form {
+            width: 35rem;
+            border-radius: 0.3rem;
+            // background: transparent;
+            background: $text-whitish;
+            box-shadow: 0 0 10px #333;
+            display: grid;
+            place-items: center;
+            padding: 1rem;
+            color: $text-dark !important;
+            input,
+            textarea {
+                width: 100%;
+                margin: 0.5rem;
+                padding: 0.4rem;
+                outline: none;
+                border: 0.01px solid $text-dark;
+                border-radius: 0.2rem;
+                color: $text-dark;
+                background: transparent;
+            }
+            *::placeholder {
+                color: $text-dark;
+            }
+            textarea {
+                height: 6rem;
+                resize: none;
+            }
+            #address {
+                height: 4rem;
+            }
+            .dropZone {
+                aside {
+                    height: 100%;
+                    width: 100%;
+                }
+                div {
+                    height: 4rem;
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-top: 0rem;
+                    padding: 1rem;
+                    cursor: pointer;
+                    border: 1px solid $text-dark;
+                    border-style: dashed;
+                    background: #f0f0f0;
+                }
+            }
+            .submit-button {
+                width: 100%;
+                .btn {
+                    width: 50%;
+                    height: 2.5rem;
+                    background: $golden;
+                    color: $text-dark;
+                    margin: 0rem 0;
+                }
+                .btn:hover {
+                    background: transparent;
+                    color: $text-dark;
+                }
+            }
+            input[type="file"] {
+                width: 0.1px;
+                height: 0.1px;
+                opacity: 0;
+            }
+            section {
+                width: 100%;
+                margin-left: 0;
+                display: grid;
+                grid-auto-flow: column;
+                place-items: center;
+                gap: 1rem;
+            }
+            .section {
+                gap: unset;
+                justify-content: start;
+                position: relative;
+                #filelabel {
+                    cursor: pointer;
+                }
+                #photoLabel {
+                    padding: .3rem;
+                    position: absolute;
+                    top: 0;
+                    right: -5rem;
+                    width: 15rem;
+                    height: auto;
+                    display: flex;
+                    flex-wrap: wrap;
+                    flex-direction: column;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .newAuction {
+        height: 92vh;
+    }
+}
+
+@media screen and (max-width: 678px) {
+    .newAuction {
+        height: auto;
+        padding: 5rem 0.5rem 3rem 0.5rem;
+        div {
+            form {
+                width: 100%;
+                .dropZone {
+                    div {
+                        height: 3rem;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 500px){
+    #photoLabel{
+        right: 0rem !important;
+        width: 40% !important;
+        p{
+            font-size: .7rem;
+        }
+    }
+}

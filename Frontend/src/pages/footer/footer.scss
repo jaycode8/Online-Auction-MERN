@@ -1,0 +1,34 @@
+
+
+@import '../../variable.scss';
+
+.footer{
+    width: 100%;
+    height: 5rem;
+    background: $navBarBg;
+    color: $text-white;
+    p{
+        grid-auto-flow: column;
+        gap: .5rem;
+        font-size: 1.3rem;
+        a{
+            color: $text-white;
+            transition: all .3s;
+        }
+        a:hover{
+            color: rgb(221, 147, 10);
+        }
+    }
+}
+
+@media screen and (max-width:500px) {
+    p{
+        font-size: 1.1rem !important;
+    }
+}
+
+@media screen and (max-width:370px) {
+    p{
+        font-size: 1rem !important;
+    }
+}

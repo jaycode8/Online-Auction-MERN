@@ -1,0 +1,160 @@
+@import "/src/variable.scss";
+
+.homePage {
+    width: 100%;
+    height: auto;
+    section {
+        width: 80%;
+        height: 70vh;
+        margin: 6rem 0 2rem 0;
+        overflow: hidden;
+    }
+    .body-section {
+        width: 95%;
+        height: auto;
+        grid-template-columns: repeat(3, 1fr);
+        padding: 1rem;
+        margin: 5rem 0;
+        .side-tab {
+            width: 100%;
+            height: 100%;
+            div {
+                place-items: start;
+                padding: 0.5rem;
+                .btn {
+                    transition: all 0.4s ease !important;
+                }
+                .btn:hover {
+                    background: linear-gradient(
+                        rgb(64, 137, 233),
+                        rgb(150, 236, 80)
+                    );
+                    color: $text-white;
+                }
+            }
+        }
+        .recomm {
+            grid-column: 2 / span 2;
+            width: 100%;
+            height: auto;
+            place-items: start !important;
+            div {
+                width: 100%;
+                height: 100%;
+
+                .card {
+                    width: 100%;
+                    height: 10rem;
+                    grid-template-columns: repeat(3, 1fr);
+                    margin: 0.5rem 0;
+                    overflow: hidden;
+                    .img {
+                        overflow: hidden;
+                        img {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover !important;
+                        }
+                    }
+                    .text {
+                        grid-column: 2 / span 2;
+                        grid-auto-flow: column;
+                        justify-content: space-between;
+                        padding-right: 0.5rem;
+                        span {
+                            padding: 0 0.5rem;
+                            display: grid;
+                            justify-content: center;
+                            gap: 0.4rem;
+                        }
+                        .btn {
+                            width: 8rem;
+                            font-size: 0.8rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .homePage {
+        section {
+            height: auto;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .homePage {
+        padding: 0 0.3rem;
+        section {
+            width: 100%;
+        }
+        .body-section {
+            grid-template-columns: unset;
+            .recomm {
+                grid-column: unset;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .homePage {
+        section{
+            .swiper{
+            .swiperSlide{
+                span{
+                    h1{
+                        font-size: 1.5rem !important;
+                    }
+                    h2{
+                        font-size: 1.2rem !important;
+                    }
+                }
+            }
+        }
+        }
+        .body-section {
+            .side-tab {
+                div {
+                    place-items: center;
+                    .btn{
+                        width: 100%;
+                    }
+                }
+            }
+            .recomm {
+                div {
+                    .card {
+                        grid-template-columns: unset;
+                        height: 24rem;
+                        width: 20rem;
+                        .img{
+                            height: 12rem;
+                        }
+                        .text {
+                            grid-column: unset;
+                            height: 12rem;
+                            grid-auto-flow: row;
+                            place-items: center;
+                            .btn{
+                                width: 15rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 400px){
+    .homePage{
+        .body-section{
+            padding: 1rem 0;
+        }
+    }
+}

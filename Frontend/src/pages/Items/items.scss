@@ -1,0 +1,476 @@
+@import "../../variable.scss";
+
+.itemLIst {
+    width: 100%;
+    height: auto;
+    padding: 5rem 1rem 1rem 1rem;
+    place-items: start !important;
+    h2 {
+        margin: 1rem 0 1rem 2rem;
+    }
+    .cards-container {
+        width: 100%;
+        height: auto;
+        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+        .itemCard {
+            width: 20rem;
+            height: 25rem;
+            background: $cardbg;
+            color: $text-white;
+            place-items: start;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            .cover-photo {
+                width: 100%;
+                height: 13rem;
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+            .item-desc {
+                width: 100%;
+                height: 12rem;
+                padding: 1rem;
+                text-align: left;
+                div {
+                    div {
+                        span {
+                            .past {
+                                color: red !important;
+                            }
+                        }
+                    }
+                }
+                .btn {
+                    width: 100%;
+                    padding: 0.4rem;
+                    text-align: center;
+                    border-radius: 0.3rem;
+                    border: 1px solid $text-white;
+                    color: $text-white;
+                }
+            }
+        }
+    }
+}
+
+// -------------- styling the singleItem component
+.singleItem {
+    width: 100%;
+    height: 100vh;
+    padding: 6rem 3rem 1rem 3rem;
+    color: $text-dark;
+    position: relative;
+    .modal {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 1000;
+        display: none;
+        place-items: center;
+        transition: all 0.2s;
+        .bid {
+            width: 80%;
+            height: auto;
+            border-radius: 0.4rem;
+            background: $text-whitish;
+            position: relative;
+            padding: 2rem 0;
+            .msg {
+                position: absolute;
+                top: 5rem;
+                border-radius: 0.2rem;
+                color: $text-white;
+            }
+            .false,
+            .true {
+                background: red;
+                z-index: 10000;
+                padding: 0.5rem 3rem;
+            }
+            .true {
+                background: green;
+            }
+            .close {
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+                width: 1.5rem;
+                height: 1.5rem;
+                padding: 0.3rem;
+                border-radius: 50%;
+                cursor: pointer;
+                background: red;
+            }
+            .bid-form {
+                width: 25rem;
+                height: auto;
+                padding: 4rem 1rem;
+                gap: 1rem;
+                box-shadow: 0 0 10px $text-dark;
+                border-radius: 0.3rem;
+                input {
+                    width: 100%;
+                    padding: 0.5rem;
+                    outline: none;
+                    border: 0;
+                    border-radius: 0.2rem;
+                    font-size: 1rem;
+                }
+                input::placeholder {
+                    color: $text-dark;
+                }
+                input[type="submit"] {
+                    background: $golden;
+                    cursor: pointer;
+                    border: 1px solid $text-dark;
+                }
+            }
+            .bidersList {
+                margin-top: 2rem;
+            }
+        }
+    }
+    .modal.open-modal {
+        display: grid;
+    }
+    .itemDescriptions {
+        width: 100%;
+        height: 100%;
+        grid-template-columns: repeat(3, 1fr);
+        .text-sms {
+            position: absolute;
+            top: 8rem;
+            right: 5rem;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            width: 50%;
+            height: 80vh;
+            background: $text-whitish;
+            box-shadow: 0 0 5px $text-dark;
+            z-index: 10000;
+            overflow: hidden;
+            transform: scale(0);
+            transform-origin: top right;
+            transition: all .5s ease;
+            .sms-container {
+                width: 100%;
+                height: 100%;
+                display: grid;
+                place-items: center;
+                section {
+                    width: 100%;
+                    height: 100%;
+                    .chats {
+                        width: 100%;
+                        height: 55vh;
+                        overflow: hidden;
+                        overflow-y: scroll;
+                        box-shadow: 0 0 5px $text-dark;
+                        border-radius: .3rem;
+                        #chatbox {
+                            padding: 10px;
+                            width: 100%;
+                            height: auto;
+                            .message {
+                                display: flex;
+                                flex-direction: row;
+                                margin-bottom: 10px;
+                                span {
+                                    width: 30px;
+                                    height: 30px;
+                                    border-radius: 50%;
+                                    margin-right: 10px;
+                                    background: #333;
+                                }
+                                .content {
+                                    background-color: #e8e8e8;
+                                    padding: 5px;
+                                    border-radius: 5px;
+                                }
+                                .timestamp {
+                                    font-size: 12px;
+                                    color: #777;
+                                    margin-left: 10px;
+                                }
+                            }
+                        }
+                    }
+                    .utils {
+                        width: 100%;
+                        height: 15vh;
+                        margin-top: 0.8rem;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: start;
+                        #input {
+                            padding: 0.8rem;
+                            border-radius: 0.2rem;
+                            background: transparent;
+                            outline: none;
+                            border: 0;
+                            width: 70%;
+                            height: 5rem;
+                            box-shadow: 0 0 5px $text-dark;
+                            font-size: 1rem;
+                            resize: none;
+                        }
+                        button {
+                            background: transparent;
+                            border: 0;
+                            outline: none;
+                            box-shadow: 0 0 5px $text-dark;
+                            padding: 0.4rem 1rem;
+                            border-radius: 0.3rem;
+                            cursor: pointer;
+                            margin-right: 2rem;
+                            .send{
+                                font-size: 1.5rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .text-sms.messageBoxActive{
+            transform: scale(1);
+        }
+        .msg_icon{
+            position: absolute;
+            top: 6rem;
+            right: 3rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: $navBarBg;
+        }
+        .highestBid {
+            position: absolute;
+            top: 7rem;
+            left: 5rem;
+            background: $golden;
+            color: $text-dark;
+            cursor: pointer;
+            padding: 1rem;
+            border-radius: 30% 70% 54% 46%/ 50% 38% 62% 50%;
+        }
+        .col-1 {
+            width: 100%;
+            height: 100%;
+            place-items: start;
+            padding: 0 2rem;
+            div {
+                width: 100%;
+                margin-top: 7rem;
+                place-items: start;
+                gap: 1rem;
+                span {
+                    display: flex;
+                    align-items: center;
+                    p {
+                        margin-left: 0.5rem;
+                    }
+                }
+                .btn {
+                    width: 100%;
+                }
+            }
+        }
+        .col-2 {
+            width: 100%;
+            height: 100%;
+            grid-column: 2 / sapn 2;
+            overflow-y: scroll;
+            .item-pic {
+                width: 80%;
+                height: 26rem;
+                padding: 1rem;
+                overflow: hidden;
+                .swiper {
+                    .swiperSlide {
+                        img {
+                            cursor: pointer;
+                            filter: unset;
+                        }
+                    }
+                }
+            }
+            .item-data {
+                width: 80%;
+                height: 100%;
+                padding: 1rem;
+                .terms {
+                    gap: 1rem;
+                    place-items: start;
+                    margin-bottom: 0.5rem;
+                    line-height: 2rem;
+                    strong {
+                        font-style: italic;
+                        color: rgb(255, 81, 0);
+                    }
+                    h3 {
+                        margin-top: 1rem;
+                        text-align: center;
+                        text-decoration: underline;
+                    }
+                    h4 {
+                        text-decoration: underline;
+                        font-style: italic;
+                    }
+                    span {
+                        display: grid;
+                        gap: 0.5rem;
+                        p {
+                            ul {
+                                margin-left: 5rem;
+                                li {
+                                    list-style: circle;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .col-2::-webkit-scrollbar {
+            display: none;
+        }
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .singleItem {
+        padding: 6rem 0.5rem 1rem 0.5rem;
+        .itemDescriptions {
+            .text-sms {
+                width: 90%;
+                right: 2rem;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .singleItem {
+        height: auto;
+        .modal {
+            height: 100vh;
+        }
+        .itemDescriptions {
+            grid-template-columns: unset;
+            .col-1 {
+                place-items: center;
+                div {
+                    width: 85%;
+                    margin-top: unset;
+                }
+            }
+            .col-2 {
+                grid-column: unset;
+            }
+        }
+    }
+    .highestBid{
+        left: unset !important;
+        right: 1rem !important;
+        top: 10rem !important;
+        font-size: .5rem !important;
+        padding: .5rem !important;
+        p{
+            font-size: .5rem !important;
+        }
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .singleItem {
+        .modal {
+            padding: 0 1rem;
+            .bid {
+                width: 100%;
+                padding: 0 1rem;
+                .bid-form {
+                    width: 100%;
+                }
+            }
+        }
+        .highestBid {
+            left: 90%;
+        }
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .singleItem {
+        .itemDescriptions {
+            .text-sms {
+                width: 98%;
+                height: 60vh;
+                right: 0;
+                .sms-container {
+                    section {
+                        .chats {
+                            height: 45vh;
+                        }
+                        .utils {
+                            height: 10vh;
+                            #input {
+                                padding: 0.4rem;
+                                border-radius: 0.1rem;
+                                height: 100%;
+                                font-size: .9rem;
+                            }
+                            button{
+                                margin-right: 0;
+                            }
+                        }
+                    }
+                }
+            }
+            .msg_icon{
+                right: .6rem;
+                font-size: 1.5rem;
+            }
+            .col-1 {
+                padding: unset;
+                div {
+                    width: 100%;
+                }
+            }
+            .col-2 {
+                margin-top: 1rem;
+                padding: 0;
+                .item-pic,
+                .item-data {
+                    padding: 1rem 0;
+                    width: 100%;
+                }
+                .item-pic {
+                    height: 17rem;
+                }
+            }
+        }
+    }
+    .bid{
+        height: auto !important;
+        padding: 1rem 0 !important;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .singleItem{
+        .itemDescriptions{
+            .text-sms {
+                width: 99%;
+                border-radius: 0;
+                padding: .3rem;
+                right: .1rem;
+            }
+        }
+    }
+}

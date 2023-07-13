@@ -1,0 +1,170 @@
+@import "../../variable.scss";
+
+.navbar {
+    width: 100%;
+    height: 5rem;
+    background: $navBarBg;
+    padding: 0 5rem;
+    color: $text-white;
+    grid-auto-flow: column;
+    justify-content: space-between;
+    position: fixed;
+    z-index: 10;
+    .user_account_details {
+        position: absolute;
+        top: 5rem;
+        right: 1rem;
+        background: $navBarBg;
+        width: 30rem;
+        height: 15rem;
+        border-radius: 0.5rem;
+        transform: scale(0);
+        transform-origin: top right;
+        transition: transform 0.2s;
+        section {
+            width: 80%;
+            place-items: start;
+            gap: 1rem;
+            margin-bottom: -2rem;
+            p {
+                font-size: 1.1rem;
+            }
+        }
+        .btn {
+            background: $text-white;
+        }
+    }
+    .user_account_details.user_details {
+        transform: scale(1);
+    }
+    span {
+        font-size: 1.2rem;
+        .logo {
+            color: $text-white;
+            .hammer {
+                margin-left: -0.5rem;
+                font-size: 2.1rem;
+                position: absolute;
+                top: 0.3rem;
+                transform: rotate(20deg);
+            }
+        }
+    }
+    ul {
+        li {
+            display: inline-block;
+            text-transform: uppercase;
+            margin: 0 0.5rem;
+            font-size: 1.2rem;
+            color: $text-white;
+            transition: all 0.2s;
+        }
+        li:hover {
+            color: rgb(238, 148, 13);
+        }
+    }
+    .Bars {
+        display: none;
+        cursor: pointer;
+    }
+    .account,
+    .account2 {
+        position: absolute;
+        right: 2rem;
+        color: $text-white;
+        border: 1px solid $text-white;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        transition: all 0.3s;
+        .user {
+            font-size: 1.2rem;
+        }
+    }
+    .account2 {
+        padding: 0.4rem;
+        cursor: pointer;
+        background: $text-white;
+        color: $text-dark;
+    }
+    .account:hover {
+        background: $text-white;
+        color: $text-dark;
+        border: none;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .navbar {
+        padding: 0 1rem;
+        ul {
+            width: 50%;
+            height: auto;
+            background: $text-dark;
+            position: absolute;
+            top: 5rem;
+            right: -50%;
+            padding: 0.5rem;
+            transition: all 0.2s;
+            a {
+                display: block;
+                margin: 2rem;
+            }
+        }
+        ul.active {
+            right: 0;
+        }
+        .Bars {
+            display: block;
+            font-size: 1.8rem;
+        }
+        .account {
+            right: 6rem;
+        }
+    }
+}
+
+@media screen and (max-width: 500px) {
+    ul {
+        width: 100% !important;
+        right: -100% !important;
+        a {
+            font-size: 1rem !important;
+        }
+    }
+    ul.active {
+        right: 0% !important;
+    }
+    .account2 {
+        right: 4rem !important;
+        width: 1.5rem !important;
+        height: 1.5rem !important;
+        padding: 0.3rem !important;
+    }
+    .user_account_details {
+        right: 0.5rem !important;
+        width: 96% !important;
+        height: 13rem !important;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .hammer {
+        font-size: 1.8rem !important;
+        top: 0.7rem !important;
+        transform: rotate(25deg) !important;
+    }
+    span {
+        font-size: 1.1rem !important;
+    }
+    .Bars {
+        font-size: 1.4rem !important;
+    }
+    .account {
+        width: 1.5rem !important;
+        height: 1.5rem !important;
+        .user {
+            font-size: 1rem !important;
+        }
+    }
+}

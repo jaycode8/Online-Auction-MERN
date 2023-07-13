@@ -1,0 +1,82 @@
+@import "../../variable.scss";
+
+.otp_page {
+    width: 100%;
+    height: 90vh;
+    background: #2c2c2c;
+}
+:where(.container, form, .input-field, header) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.msg {
+    position: absolute;
+    top: 5rem;
+    border-radius: 0.2rem;
+    color: $text-white;
+}
+.false,
+.true {
+    background: red;
+    z-index: 10000;
+    padding: 0.5rem 3rem;
+}
+.true {
+    background: green;
+}
+.container {
+    background: $text-whitish;
+    padding: 30px 65px;
+    border-radius: 12px;
+    row-gap: 20px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+.container header {
+    height: 65px;
+    width: 65px;
+    background: #4070f4;
+    color: #fff;
+    font-size: 2.5rem;
+    border-radius: 50%;
+}
+.container h4 {
+    font-size: 1.25rem;
+    color: #333;
+    font-weight: 500;
+}
+form .input-field {
+    flex-direction: row;
+    column-gap: 10px;
+}
+.input-field input {
+    height: 45px;
+    width: 42px;
+    border-radius: 6px;
+    outline: none;
+    font-size: 1.125rem;
+    text-align: center;
+    border: 0;
+    background: transparent;
+    box-shadow: 0 0 4px $text-dark;
+}
+.input-field input:focus {
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+.input-field input::-webkit-inner-spin-button,
+.input-field input::-webkit-outer-spin-button {
+    display: none;
+}
+form .button {
+    margin-top: 25px;
+    width: 100%;
+    color: #fff;
+    font-size: 1rem;
+    border: none;
+    padding: 9px 0;
+    cursor: pointer;
+    border-radius: 6px;
+    background: #0e4bf1;
+    transition: all 0.2s ease;
+}
