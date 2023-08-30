@@ -4,7 +4,7 @@
     "description": "A MEARN Online Auction web app",
     "main": "app.js",
     "engines": {
-        "node": "14.x"
+        "node": "18.x"
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
