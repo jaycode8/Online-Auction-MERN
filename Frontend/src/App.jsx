@@ -11,7 +11,10 @@ import NewAuction from './pages/newAuction/newAuction';
 import Otp from './pages/accounts/otp';
 import PastItems from './pages/Items/pastItems';
 import MyItems from './pages/Items/myItems';
+import MyItemsModify from './pages/Items/myItems-modify';
+import ModifyAuction from './pages/newAuction/modify';
 import Admin from './pages/Admin/admin';
+import EditAccount from './pages/accounts/editAccount';
 
 const App = () => {
     return (
@@ -22,10 +25,13 @@ const App = () => {
                 <Route path='/auctions' element={<Items />} />
                 <Route path='/item/:id' element={<SingleItem />} />
                 <Route path='/acc' element={<Accounts />} />
+                <Route path='/editAcc/:id' element={<EditAccount/>} />
                 <Route path='/newAuction' element={<NewAuction />} />
                 <Route path='/verify' element={<Otp />} />
                 <Route path='/ended' element={<PastItems />} />
                 <Route path='/myItems' element={<MyItems />} />
+                <Route path='/itemsModify' element={<MyItemsModify />} />
+                <Route path='/update/:id' element={<ModifyAuction />} />
                 <Route path='/admin' element={<Admin/>} />
             </Routes>
             <Footer/>

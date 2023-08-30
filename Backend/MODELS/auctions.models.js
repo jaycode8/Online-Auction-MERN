@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "items"
     }],
+    bids: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "bid"
+    }],
     isAdmin: {
         type: Boolean,
         default: false

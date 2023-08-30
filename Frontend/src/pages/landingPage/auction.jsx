@@ -38,7 +38,12 @@ const Auction = () => {
                     <Link to='/auctions' className='btn'>View auctions</Link>
                     <Link to='/ended' className='btn'>View Ended auctions</Link>
                     {
-                        sessionToken ? <Link to='/myItems' className='btn'>my Auctions</Link> : ''
+                        sessionToken ? (
+                            <>
+                                <Link to='/myItems' className='btn'>my Auctions</Link>
+                                <Link to='/itemsModify' className='btn'>Modify Auctions</Link>
+                            </>
+                        ) : ''
                     }
                 </div>
             </div>

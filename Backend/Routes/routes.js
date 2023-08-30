@@ -31,21 +31,21 @@ let storage = multer.diskStorage({
 });
 let upload = multer({ storage: storage });
 
-const verifyToken = async (req,res,next) =>{
+const verifyToken = async (req, res, next) => {
     try {
         const accessToken = req.headers.authorization.split(' ')[1]
-        if(!accessToken) {
+        if (!accessToken) {
             return res.status(400).json({ success: 'false', msg: 'please sign in first' });
-        }else{
+        } else {
             const validateToken = await jwt.verify(accessToken, jwtKey);
-            if(validateToken){
+            if (validateToken) {
                 req.authenticated = true;
                 req.id = validateToken // this is the information response of the user sent to client
                 return next()
             }
         }
     } catch (error) {
-        res.json({success:'false', msg:'please sign in first'})
+        res.json({ success: 'false', msg: 'please sign in first' })
     }
 }
 
@@ -68,7 +68,7 @@ const createSystemAdmin = async () => {
                 user_name: "admin",
                 phone: "0700000000",
                 password: hashed_password,
-                isAdmin : true
+                isAdmin: true
             });
             await Admin.save();
             console.log('An admin has been successfully been created');
@@ -79,20 +79,40 @@ const createSystemAdmin = async () => {
 };
 createSystemAdmin();
 
+const createDummyAccount = async () => {
+    try {
+        const dummyAccount = await usersModel.findOne({ user_name: 'test' });
+        if (!dummyAccount) {
+            const hashed_password = await bcrypt.hash("test", salt_rounds);
+            const dummyUser = new usersModel({
+                email: "test.app@gmail.com",
+                user_name: "test",
+                phone: "07111111",
+                password: hashed_password
+            });
+            await dummyUser.save();
+            console.log('A dummy user account has been successfully created');
+        }
+    } catch (error) {
+        console.error('An error occured while creating an dummy account');
+    }
+};
+createDummyAccount();
+
 
 // =========================== Users Routes =============================
 
 router.get('/', verifyToken, async (req, res) => {
     try {
-        res.json({ success: "true", msg: "Hi the API's has been successfully been deployed"});
+        res.json({ success: "true", msg: "Hi the API's has been successfully been deployed" });
     } catch (error) {
         res.json({ success: "false", msg: "fatal error...." });
     }
 });
 
-router.post('/users', async (req,res) =>{
+router.post('/users', async (req, res) => {
     try {
-        const exist_email = await usersModel.findOne({ email: req.body.email});
+        const exist_email = await usersModel.findOne({ email: req.body.email });
         if (exist_email == null) {
             const exist_username = await usersModel.findOne({ user_name: req.body.user_name });
             if (exist_username == null) {
@@ -124,7 +144,7 @@ router.post('/users', async (req,res) =>{
             res.json({ success: 'false', msg: 'Email already exists' });
         }
     } catch (error) {
-        res.json({success:'false', msg:error.message});
+        res.json({ success: 'false', msg: error.message });
     };
 });
 
@@ -135,14 +155,14 @@ router.post('/verify', async (req, res) => {
             await user.save();
             res.json({ success: 'true', msg: 'otp correct', otp: otp_num });
         } else {
-            res.json({ success: 'false', msg: 'OTP code incorrect'});
+            res.json({ success: 'false', msg: 'OTP code incorrect' });
         }
     } catch (error) {
         res.json({ success: 'false', msg: 'An error occured' });
     }
 })
 
-router.post('/login', async(req,res) =>{
+router.post('/login', async (req, res) => {
     try {
         const user = req.body;
         const foundUser = await usersModel.findOne({ user_name: user.userName });
@@ -158,11 +178,11 @@ router.post('/login', async(req,res) =>{
             } else {
                 res.json({ success: "false", msg: "Password is incorrect" });
             }
-        }else{
+        } else {
             res.json({ success: "false", msg: "User name does not exist" });
         }
     } catch (error) {
-        res.json({ success: "false", msg:"User does not exist"});
+        res.json({ success: "false", msg: "User does not exist" });
     }
 });
 
@@ -170,7 +190,17 @@ router.get('/user', verifyToken, async (req, res) => {
     try {
         const user = req.id.user;
         const user_data = await usersModel.findOne({ _id: user });
-        res.json({ success: "true", msg: "User successfully fetched", user:user_data });
+        res.json({ success: "true", msg: "User successfully fetched", user: user_data });
+    } catch (error) {
+        res.json({ success: "false", msg: "fatal error...." });
+    }
+});
+
+router.patch('/user/:id', verifyToken, async (req, res) => {
+    try {
+        const user = req.id.user;
+        const updated_user = await usersModel.findByIdAndUpdate(user, req.body);
+        res.json({ success: "true", msg: "User successfully updated", user: updated_user });
     } catch (error) {
         res.json({ success: "false", msg: "fatal error...." });
     }
@@ -196,12 +226,12 @@ router.delete('/user/:id', verifyToken, async (req, res) => {
 
 // ================================ auction items routes 
 
-router.post('/items', upload.array('itemPhotos',10), verifyToken, async (req, res) => {
+router.post('/items', upload.array('itemPhotos', 10), verifyToken, async (req, res) => {
     try {
         const loggedUser = req.id.user;
         const files = req.files;
         if (files) {
-            let file_names = [] 
+            let file_names = []
             files.forEach(file => {
                 file_names.push(file.filename);
             });
@@ -212,7 +242,7 @@ router.post('/items', upload.array('itemPhotos',10), verifyToken, async (req, re
             const user = await usersModel.findById(loggedUser);
             user.postedItems.push(new_item);
             await user.save();
-            res.json({ success: 'true', msg: 'Item was succesfully uploaded'});
+            res.json({ success: 'true', msg: 'Item was succesfully uploaded' });
         } else {
             res.json({ success: 'false', msg: 'A file must be uploaded' });
         }
@@ -223,7 +253,7 @@ router.post('/items', upload.array('itemPhotos',10), verifyToken, async (req, re
 
 router.get('/items', async (req, res) => {
     try {
-        const items_list = await itemModel.find().populate('uploder');
+        const items_list = await itemModel.find().populate('uploder').sort({ time: -1 });
         res.json({ success: 'true', msg: 'array of all items', items: items_list });
     } catch (error) {
         res.json({ success: 'false', msg: 'An error occured' });
@@ -233,8 +263,8 @@ router.get('/items', async (req, res) => {
 router.get('/item/:id', async (req, res) => {
     try {
         const item_id = req.params.id;
-        const item = await itemModel.findOne({_id:item_id});
-        res.json({ success: 'true', msg: 'array of all items', item: item });
+        const item = await itemModel.findOne({ _id: item_id });
+        res.json({ success: 'true', msg: 'The fetched successfully', item: item });
     } catch (error) {
         res.json({ success: 'false', msg: 'An error occured' });
     }
@@ -243,8 +273,38 @@ router.get('/item/:id', async (req, res) => {
 router.get('/myItems', verifyToken, async (req, res) => {
     try {
         const user = req.id.user;
-        const items = await itemModel.find({ uploder : user});
+        const items = await itemModel.find({ uploder: user });
         res.json({ success: 'true', msg: 'array of all items', items: items });
+    } catch (error) {
+        res.json({ success: 'false', msg: 'An error occured' });
+    }
+});
+
+router.put('/item/:id', upload.array('itemPhotos', 10), verifyToken, async (req, res) => {
+    try {
+        const id = req.params.id;
+        const loggedUser = req.id.user;
+        const files = req.files;
+        let file_names = []
+        files.forEach(file => {
+            file_names.push(file.filename);
+        });
+        req.body.itemPhotos = file_names;
+        req.body.uploder = loggedUser;
+        await itemModel.findByIdAndUpdate(id, req.body);
+        res.json({ success: 'true', msg: 'item successfully updated', 'file': req.files, 'item': req.body });
+    } catch (error) {
+        res.json({ success: 'false', msg: 'An error occured' });
+    }
+});
+
+router.patch('/item/:id', upload.array('itemPhotos', 10), verifyToken, async (req, res) => {
+    try {
+        const id = req.params.id;
+        const loggedUser = req.id.user;
+        req.body.uploder = loggedUser;
+        await itemModel.findByIdAndUpdate(id, req.body);
+        res.json({ success: 'true', msg: 'item successfully updated', 'item': req.body });
     } catch (error) {
         res.json({ success: 'false', msg: 'An error occured' });
     }
@@ -258,7 +318,9 @@ router.post('/item/:id/bids', verifyToken, async (req, res) => {
         await bid.save()
         const found_item = await itemModel.findOne({ _id: item });
         found_item.bidders.push(user);
-        res.json({ success: 'true', msg: 'bid successfully placed', item: found_item, user: user });
+        const found_user = await usersModel.findOne({ _id: user });
+        found_user.bids.push(bid._id)
+        res.json({ success: 'true', msg: 'bid successfully placed', item: found_item, user: user, bid: bid });
     } catch (error) {
         res.json({ success: 'false', msg: 'An error occured' });
     }
@@ -267,8 +329,17 @@ router.post('/item/:id/bids', verifyToken, async (req, res) => {
 router.get('/item/:id/bids', async (req, res) => {
     try {
         const itemId = req.params.id;
-        const bids = await bidModel.find({ item: itemId }).sort({ amount : -1}).populate('user')
-        res.json({ success: 'true', msg: 'bid lists', bids: bids});
+        const bids = await bidModel.find({ item: itemId }).sort({ amount: -1 }).populate('user');
+        const sorted_bids = bids.sort((a, b) => b.amount - a.amount);
+        const highestBidsMap = new Map();
+        for (const bid of sorted_bids) {
+            const userId = bid.user._id;
+            if (!highestBidsMap.has(userId)) {
+                highestBidsMap.set(userId, bid)
+            }
+        };
+        const grouped_bids = Array.from(highestBidsMap.values());
+        res.json({ success: 'true', msg: 'bid lists', high_bid: bids[0].amount, bids: grouped_bids });
     } catch (error) {
         res.json({ success: 'false', msg: 'An error occured' });
     }
@@ -288,13 +359,13 @@ router.post('/accept', async (req, res) => {
 router.delete('/item/:id', verifyToken, async (req, res) => {
     try {
         const item = await itemModel.findOne({ _id: req.params.id });
-        for (let i = 0; i < item.itemPhotos.length; i++){
+        for (let i = 0; i < item.itemPhotos.length; i++) {
             fs.unlinkSync(`./public/uploads/${item.itemPhotos[i]}`);
         }
         await itemModel.remove({ _id: req.params.id });
         res.json({ success: "true", msg: "Successfully deleted item" });
     } catch (error) {
-        res.json({ success: "false", msg: "An error occured user is not deleted" });
+        res.json({ success: "false", msg: "An error occured item is not deleted" });
     }
 });
 

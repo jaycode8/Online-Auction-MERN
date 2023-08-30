@@ -23,6 +23,7 @@
     "react-router-dom": "^6.11.1",
     "sass": "^1.62.1",
     "sweetalert": "^2.1.2",
+    "sweetalert2": "^11.7.27",
     "swiper": "^9.3.1"
   },
   "devDependencies": {

@@ -13,6 +13,7 @@ import { RxCross1 } from 'react-icons/rx';
 import { GrSend } from 'react-icons/gr';
 import { AiFillMessage } from 'react-icons/ai';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const url_api = import.meta.env.VITE_REACT_APP_URL;
 const sessionToken = localStorage.getItem('sessionToken');
@@ -43,8 +44,8 @@ const SingleItem = () => {
     const fetchBids = async () => {
         try {
             const res = await axios(`${url_api}/item/${id}/bids`);
-            setHighestBid(res.data.bids[0].amount)
             setBidList(res.data.bids);
+            setHighestBid(res.data.high_bid)
         } catch (error) {
             console.log(error);
         }
@@ -59,10 +60,26 @@ const SingleItem = () => {
     const handleChange = ({ currentTarget: input }) => {
         setBid({ ...bid, [input.name]: input.value });
     };
-    
-    const handleSubmit = async (event) => {
+
+    const confirmBidPlacement = (event) => {
+        event.preventDefault();
+        Swal.fire({
+            title: 'BIDDIT.COM',
+            text: `Confirm placing a bid of ksh.${bid.amount} on ${item.prodTitle}`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, place bid'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                handleSubmit();
+            }
+        })
+    }
+
+    const handleSubmit = async () => {
         try {
-            event.preventDefault();
             const res = await axios({
                 method: 'post',
                 url: `${url_api}/item/${id}/bids`,
@@ -75,21 +92,22 @@ const SingleItem = () => {
             if (res.data.success == 'true') {
                 window.location.reload(true);
             }
+            console.log(res.data)
         } catch (error) {
             console.log(error);
         }
     };
-    
+
     const myModal = () => {
         document.querySelector('.modal').classList.toggle('open-modal');
     };
-    
+
     // ------------------ formating the date string
     let dateStr = item.time;
     const dt = new Date(dateStr);
     const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
     const formattedDate = dt.toLocaleDateString('en-US', options);
-    
+
     //  -------------------- getting remaining days to auction end
     let currentDate = new Date();
     const futureDay = new Date(dateStr);
@@ -105,7 +123,7 @@ const SingleItem = () => {
         (
             remaining_time = `${Math.abs(days)} days `
         )
-    
+
     function getCurrentTime() {
         var now = new Date();
         var hours = now.getHours();
@@ -151,7 +169,9 @@ const SingleItem = () => {
     const toggleMsg = () => {
         document.querySelector('.text-sms').classList.toggle('messageBoxActive')
     };
-    
+    //bidList == undefined ? console.log('none') : console.log('items')
+    //console.log(bidList)
+
     return (
         <div className='singleItem'>
             <div className='modal'>
@@ -161,17 +181,19 @@ const SingleItem = () => {
                     {
                         timeDiff >= 1 ?
                             <section>
-                                <form className='bid-form grid' onSubmit={() => handleSubmit(event)}>
+                                <form className='bid-form grid' onSubmit={() => confirmBidPlacement(event)}>
                                     <input
                                         type='text'
                                         placeholder='Physical Address'
                                         name='address'
+                                        required
                                         onChange={handleChange}
                                     />
                                     <input
                                         type='number'
                                         placeholder='Bid Amount'
                                         name='amount'
+                                        required
                                         onChange={handleChange}
                                     />
                                     <input
@@ -182,11 +204,26 @@ const SingleItem = () => {
                                 <div className="bidersList grid">
                                     <h4>bidders</h4>
                                     {
-                                        bidList.map(list => (
-                                            <span className='grid'>
-                                                <p>{list.user.user_name} : ksh.{list.amount}</p>
-                                            </span>
-                                        ))
+                                        bidList ? (
+
+                                            <table>
+                                                <tr>
+                                                    <th>name</th>
+                                                    <th>amount(ksh.)</th>
+                                                    <th>address</th>
+                                                </tr>
+                                                {
+                                                    bidList.map(list => (
+                                                        <tr>
+                                                            <td>{list.user.user_name}</td>
+                                                            <td>{list.amount}</td>
+                                                            <td>{list.address}</td>
+                                                        </tr>
+                                                    ))
+                                                }
+                                            </table>) : (
+                                            <p style={{ marginTop: '1rem' }}>No bidders yet</p>
+                                        )
                                     }
                                 </div>
                             </section>
@@ -195,16 +232,31 @@ const SingleItem = () => {
                                 <div className="bidersList grid">
                                     <h4>bidders</h4>
                                     {
-                                        bidList.map(list => (
-                                            <span className='grid'>
-                                                <p>{list.user.user_name} : ksh.{list.amount}</p>
-                                            </span>
-                                        ))
+                                        bidList ? (
+
+                                            <table>
+                                                <tr>
+                                                    <th>name</th>
+                                                    <th>amount(ksh.)</th>
+                                                    <th>address</th>
+                                                </tr>
+                                                {
+                                                    bidList.map(list => (
+                                                        <tr>
+                                                            <td>{list.user.user_name}</td>
+                                                            <td>{list.amount}</td>
+                                                            <td>{list.address}</td>
+                                                        </tr>
+                                                    ))
+                                                }
+                                            </table>) : (
+                                            <p style={{ marginTop: '1rem' }}>No bidders yet. Bid session might reopen soon.</p>
+                                        )
                                     }
                                 </div>
                             </div>
                     }
-                    
+
                 </div>
             </div>
             <div className='itemDescriptions grid'>
@@ -217,50 +269,66 @@ const SingleItem = () => {
                             <div className='utils'>
                                 <textarea id='input' placeholder='message'></textarea>
                                 <button onClick={() => sendMessage()}>
-                                    <GrSend className='send'/>
+                                    <GrSend className='send' />
                                 </button>
                             </div>
                         </section>
                     </div>
                 </div>
-                <AiFillMessage className='msg_icon' onClick={()=>toggleMsg()}/>
-                <div className="highestBid">
-                    high bid
-                    <p>ksh.{highestBid }</p>
-                </div>
+                <AiFillMessage className='msg_icon' onClick={() => toggleMsg()} />
+                {
+                    bidList ? <>
+                        <div className='highestBid'>
+                            high bid
+                            <p>ksh. {highestBid}</p>
+                        </div>
+                    </> : <>
+                        <div className='highestBid nobid'>
+                            <p>item was not pachased and bid sesion might be back soon</p>
+                        </div>
+                    </>
+                }
+
                 <div className='col-1 grid'>
                     <div className='grid'>
-                        <h1>{item.prodTitle }</h1>
-                        <p>ID: {item._id }</p>
-                        <p>cordinator: {item.owner }</p>
+                        <h1>{item.prodTitle}</h1>
+                        <p>ID: {item._id}</p>
+                        <p>cordinator: {item.owner}</p>
                         <span>
                             <GiAlarmClock />
                             {
-                                timeDiff >= 1 ? <p>ends in {remaining_time}</p> : <p style={{color:'red'}}>ended in past {remaining_time}</p>
+                                timeDiff >= 1 ? <p>ends in {remaining_time}</p> : <p style={{ color: 'red' }}>ended in past {remaining_time}</p>
                             }
                         </span>
                         <span>
-                            <VscLocation/>
-                            <p>{item.address }</p>
+                            <VscLocation />
+                            <p>{item.address}</p>
                         </span>
                         {
-                            timeDiff >= 1 ? <button
-                                className='btn'
-                                onClick={() => myModal()}
-                            >
-                                place bid
-                            </button>
+                            timeDiff >= 1 ? <>
+                                {/* <button
+                                    className='btn'
+                                    onClick={() => myModal()}
+                                >
+                                    place bid
+                                </button> */}
+                                <button
+                                    className='btn'
+                                    onClick={() => myModal()}
+                                >
+                                    participate bid
+                                </button>
+                            </>
                                 :
-                            <button
-                                className='btn'
-                                onClick={() => myModal()}
-                            >
-                                Sold out view bidders
-                            </button>
+                                <button
+                                    className='btn'
+                                    onClick={() => myModal()}
+                                >
+                                    Sold out view bidders
+                                </button>
                         }
                     </div>
                 </div>
-                {/* <div>hello</div> */}
                 <div className='col-2 grid'>
                     <div className='item-pic'>
                         <Swiper
@@ -303,7 +371,7 @@ const SingleItem = () => {
                                     computer sniping software to place bids within the last second of an auction out bidding you.
                                 </p>
                             </span>
-                            
+
                             <span>
                                 <h4>SALES TAX</h4>
                                 <p>
@@ -364,7 +432,7 @@ const SingleItem = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
 

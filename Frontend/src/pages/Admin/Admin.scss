@@ -33,6 +33,7 @@
             .card {
                 width: 35rem;
                 height: 10rem;
+                position: relative;
                 box-shadow: 0 0 5px $text-dark;
                 border-radius: 0.4rem;
                 overflow: hidden;
@@ -59,6 +60,12 @@
                             width: 15rem;
                         }
                     }
+                }
+                .timer{
+                    position: absolute;
+                    top: 1rem;
+                    right: 1rem;
+                    cursor: pointer;
                 }
             }
         }
@@ -102,6 +109,18 @@
         background: rgba(0, 0, 0, 0.5);
         border-radius: 10rem;
     }
+}
+.badge{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1rem;
+    height: 1rem;
+    background: #15ea15;
+    border-radius: 50%;
+}
+.off{
+    background: #dc2b23;
 }
 
 @media screen and (max-width: 640px) {

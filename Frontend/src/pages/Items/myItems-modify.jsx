@@ -3,12 +3,11 @@ import { Link } from 'react-router-dom';
 import './items.scss';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { FaPen } from 'react-icons/fa';
 
 const url_api = import.meta.env.VITE_REACT_APP_URL;
 const sessionToken = localStorage.getItem('sessionToken');
 
-const MyItems = () => {
+const MyItemsModify = () => {
     const [items, setItems] = useState([]);
 
     const activeUser = async () => {
@@ -25,11 +24,10 @@ const MyItems = () => {
     useEffect(() => {
         activeUser();
     }, []);
-    const item_status = items.accepted ? 'accepted' : 'reject';
-    
+
     return (
         <div className='itemLIst grid' id='items'>
-            <h2>My Items</h2>
+            <h2>Choose an item to modify</h2>
             <div className='cards-container grid'>
                 {
                     items.map(item => (
@@ -38,13 +36,10 @@ const MyItems = () => {
                                 <img src={`${url_api}/uploads/${item.itemPhotos[0]}`} alt={`${item.prodTitle}`} />
                             </div>
                             <div className='item-desc grid'>
-                                <Link to={`/update/${item._id}`} className='btn-modify'>
-                                    <FaPen/>
-                                </Link>
                                 <h2>{item.prodTitle}</h2>
                                 <p>{item.Overview}</p>
                                 <p>owner: {item.owner}</p>
-                                <Link to={`/item/${item._id}`} className='btn' id={`${item_status}`}>Auction</Link>
+                                <Link to={`/update/${item._id}`} className='btn'>Modify</Link>
                             </div>
                         </div>
                     ))
@@ -54,4 +49,4 @@ const MyItems = () => {
     );
 }
 
-export default MyItems;
+export default MyItemsModify;

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import './items.scss';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import { BsFillPinAngleFill } from 'react-icons/bs';
 
 const url_api = import.meta.env.VITE_REACT_APP_URL;
 
@@ -29,6 +30,8 @@ const PastItems = () => {
                 {
                     passive_products.map(item => (
                         <div className='itemCard grid' key={item._id}>
+                            <span className='end-badge'></span>
+                            <BsFillPinAngleFill className='pinned' />
                             <div className='cover-photo'>
                                 <img src={`${url_api}/uploads/${item.itemPhotos[0]}`} alt={`${item.prodTitle}`} />
                             </div>
@@ -36,7 +39,7 @@ const PastItems = () => {
                                 <h2>{item.prodTitle}</h2>
                                 <p>{item.Overview}</p>
                                 <p>owner: {item.owner}</p>
-                                <Link to={`/item/${item._id}`} className='btn'>Auction</Link>
+                                <Link to={`/item/${item._id}`} className='btn'>View</Link>
                             </div>
                         </div>
                     ))

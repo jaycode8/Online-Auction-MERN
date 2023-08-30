@@ -5,6 +5,7 @@ import { AiOutlineBars, AiOutlineUserAdd, AiOutlineUser } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import { ImHammer2 } from 'react-icons/im';
 import axios from 'axios';
+import { FaPen } from 'react-icons/fa';
 
 const url_api = import.meta.env.VITE_REACT_APP_URL;
 const sessionToken = localStorage.getItem('sessionToken');
@@ -48,7 +49,7 @@ const Nav = () => {
         localStorage.removeItem('sessionToken');
         window.location.href = '/';
     };
-    
+
     return (
         <div className='navbar grid'>
             <div className='user_account_details grid'>
@@ -57,8 +58,25 @@ const Nav = () => {
                     <p>email : {user.email}</p>
                     <p>phone : {user.phone}</p>
                 </section>
-                <button className='btn' onClick={() => logOut()}>Log Out</button>
+                <span className='buttons'>
+                    {
+                        sessionToken ? (
+                            checkUser.isAdmin ? (
+                                <>
+                                    <button className='btn' onClick={() => logOut()}>Log Out</button>
+                                </>
+                            ) : (
+                                <>
+                                    <Link to={`/editAcc/${user._id}`} className='btn'>edit account</Link>
+                                    <button className='btn' onClick={() => logOut()}>Log Out</button>
+                                </>
+                            )) : (
+                            <></>
+                        )
+                    }
+                </span>
             </div>
+            
             <span>
                 {
                     sessionToken ? (
@@ -71,22 +89,22 @@ const Nav = () => {
                                 <ImHammer2 className='hammer' />
                             </Link>
                         ) : (
-                                <Link
-                                    to='/'
-                                    className='logo'
-                                >
-                                    BIDDIT
-                                    <ImHammer2 className='hammer' />
-                                </Link>
-                        )
-                    ): (
                             <Link
                                 to='/'
                                 className='logo'
                             >
                                 BIDDIT
                                 <ImHammer2 className='hammer' />
-                            </Link>  
+                            </Link>
+                        )
+                    ) : (
+                        <Link
+                            to='/'
+                            className='logo'
+                        >
+                            BIDDIT
+                            <ImHammer2 className='hammer' />
+                        </Link>
                     )
                 }
             </span>
@@ -94,7 +112,7 @@ const Nav = () => {
                 sessionToken ? (
                     checkUser.isAdmin ?
                         <>
-                            
+
                         </>
                         :
                         <>

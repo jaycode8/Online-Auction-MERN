@@ -20,7 +20,8 @@
             color: $text-white;
             place-items: start;
             border-radius: 0.5rem;
-            overflow: hidden;
+            position: relative;
+            overflow: hidden !important;
             .cover-photo {
                 width: 100%;
                 height: 13rem;
@@ -35,6 +36,7 @@
                 height: 12rem;
                 padding: 1rem;
                 text-align: left;
+                position: relative;
                 div {
                     div {
                         span {
@@ -52,6 +54,27 @@
                     border: 1px solid $text-white;
                     color: $text-white;
                 }
+                .btn-modify{
+                    position: absolute;
+                    top: 1rem;
+                    right: 1rem;
+                    color: #e8e8e8;
+                }
+            }
+            .end-badge{
+                position: absolute;
+                background: red;
+                width: 5rem;
+                height: 10rem;
+                transform: rotate(45deg) translate(-80%, -30%);
+            }
+            .pinned{
+                position: absolute;
+                top: 1rem;
+                left: 1rem;
+                font-size: 1.5rem;
+                filter: drop-shadow(0 5px 5px #333);
+                cursor: pointer;
             }
         }
     }
@@ -134,6 +157,29 @@
             }
             .bidersList {
                 margin-top: 2rem;
+                padding-inline: 1rem;
+                h4{
+                    font-size: 1.2rem;
+                    text-transform: uppercase;
+                    text-decoration: underline;
+                }
+                table{
+                    width: 100%;
+                    text-align: left;
+                    margin-top: 1rem;
+                    border-collapse: collapse;
+                    tr{
+                        th{
+                            text-transform: uppercase;
+                            background: #777;
+                            padding: .4rem;
+                        }
+                        td{
+                            padding: .4rem;
+                            border-bottom: 2px solid #333;
+                        }
+                    }
+                }
             }
         }
     }
@@ -257,7 +303,17 @@
             color: $text-dark;
             cursor: pointer;
             padding: 1rem;
+            text-align: center;
             border-radius: 30% 70% 54% 46%/ 50% 38% 62% 50%;
+        }
+        .nobid{
+            background: #e93816;
+            color: #121212; 
+            width: 15rem;
+            padding: 2rem;
+            top: 6rem;
+            left: 7rem;
+            border-radius: 44% 56% 1% 99% / 44% 48% 52% 56%; 
         }
         .col-1 {
             width: 100%;
@@ -341,6 +397,11 @@
             display: none;
         }
     }
+}
+
+#reject{
+    opacity: 0.3;
+    cursor: not-allowed;
 }
 
 @media screen and (max-width: 900px) {

@@ -170,6 +170,12 @@ form .btn input[type="submit"] {
     font-weight: 500;
     cursor: pointer;
 }
+#editForm{
+    width: 20rem;
+}
+#editForm form{
+    width: 100%;
+}
 
 @media screen and (max-width: 900px){
     .accounts{

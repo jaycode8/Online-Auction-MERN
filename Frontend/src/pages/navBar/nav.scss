@@ -30,8 +30,19 @@
                 font-size: 1.1rem;
             }
         }
-        .btn {
-            background: $text-white;
+        .buttons {
+            width: 100%;
+            display: grid;
+            grid-auto-flow: column;
+            place-items: center;
+            .btn {
+                background: $text-white;
+                font-size: .8rem;
+            }
+        }
+        .edit {
+            position: absolute;
+            bottom: 1rem;
         }
     }
     .user_account_details.user_details {
