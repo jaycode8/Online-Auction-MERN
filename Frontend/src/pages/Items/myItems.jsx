@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import './items.scss';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { FaPen } from 'react-icons/fa';
+import { FaTrash, FaPen } from 'react-icons/fa';
+import Swal from 'sweetalert2';
 
 const url_api = import.meta.env.VITE_REACT_APP_URL;
 const sessionToken = localStorage.getItem('sessionToken');
@@ -38,6 +39,41 @@ const MyItems = () => {
         return futureDay <= currentDate;
     });
 
+    const removeItem = async (id) => {
+        try {
+            const res = await axios({
+                method: 'delete',
+                url: `${url_api}/item/${id}`,
+                headers: {
+                    Authorization: `Bearer ${sessionToken}`
+                }
+            });
+            alert(res.data.msg);
+            if (res.data.success == 'true') {
+                window.location.reload(true);
+            } else {
+                window.location.reload(false);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const confirmation = (id, text, func) => {
+        Swal.fire({
+            title: "BIDDIT.COM",
+            text: text,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "sure"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                func(id)
+            }
+        })
+    }
+
     return (
         <div className='itemLIst grid' id='items'>
             <h2>My Active Items</h2>
@@ -70,9 +106,12 @@ const MyItems = () => {
                                 <img src={`${url_api}/uploads/${item.itemPhotos[0]}`} alt={`${item.prodTitle}`} />
                             </div>
                             <div className='item-desc grid'>
-                                <Link to={`/update/${item._id}`} className='btn-modify'>
-                                    <FaPen />
-                                </Link>
+                                {/* <Link to={`/update/${item._id}`} className='btn-modify'>
+                                    <FaTrash />
+                                </Link> */}
+                                <button className='btn-delete' onClick={() => confirmation(item._id, `Are you sure to remove ${item.prodTitle}`, removeItem)}>
+                                    <FaTrash/>
+                                </button>
                                 <h2>{item.prodTitle}</h2>
                                 <p>{item.Overview}</p>
                                 <p>owner: {item.owner}</p>

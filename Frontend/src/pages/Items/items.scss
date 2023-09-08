@@ -54,11 +54,17 @@
                     border: 1px solid $text-white;
                     color: $text-white;
                 }
-                .btn-modify{
+                .btn-modify, .btn-delete{
                     position: absolute;
                     top: 1rem;
                     right: 1rem;
                     color: #e8e8e8;
+                }
+                .btn-delete{
+                    background: transparent;
+                    border: 0;
+                    outline: 0;
+                    cursor: pointer;
                 }
             }
             .end-badge{

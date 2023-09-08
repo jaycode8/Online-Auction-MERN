@@ -30,7 +30,7 @@ const Landing = () => {
         if (!payload.exp) {
             return true;
         }
-        const expirationTime = payload.exp * 21600;
+        const expirationTime = payload.exp * 60*60*12;
         return Date.now() > expirationTime;
     }
 
