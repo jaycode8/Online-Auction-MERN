@@ -24,13 +24,19 @@ const MyItemsModify = () => {
     useEffect(() => {
         activeUser();
     }, []);
+    let currentDate = new Date();
+    const active_products = items.filter((product) => {
+        const futureDay = new Date(product.time);
+        return futureDay >= currentDate;
+    });
+    console.log(active_products)
 
     return (
         <div className='itemLIst grid' id='items'>
             <h2>Choose an item to modify</h2>
             <div className='cards-container grid'>
                 {
-                    items.map(item => (
+                    active_products.map(item => (
                         <div className='itemCard grid' key={item._id}>
                             <div className='cover-photo'>
                                 <img src={`${url_api}/uploads/${item.itemPhotos[0]}`} alt={`${item.prodTitle}`} />

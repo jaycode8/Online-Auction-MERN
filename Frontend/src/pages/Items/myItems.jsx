@@ -26,20 +26,52 @@ const MyItems = () => {
         activeUser();
     }, []);
     const item_status = items.accepted ? 'accepted' : 'reject';
-    
+
+    let currentDate = new Date();
+    const active_products = items.filter((product) => {
+        const futureDay = new Date(product.time);
+        return futureDay >= currentDate;
+    });
+
+    const passive_products = items.filter((product) => {
+        const futureDay = new Date(product.time);
+        return futureDay <= currentDate;
+    });
+
     return (
         <div className='itemLIst grid' id='items'>
-            <h2>My Items</h2>
+            <h2>My Active Items</h2>
             <div className='cards-container grid'>
                 {
-                    items.map(item => (
+                    active_products.map(item => (
                         <div className='itemCard grid' key={item._id}>
                             <div className='cover-photo'>
                                 <img src={`${url_api}/uploads/${item.itemPhotos[0]}`} alt={`${item.prodTitle}`} />
                             </div>
                             <div className='item-desc grid'>
                                 <Link to={`/update/${item._id}`} className='btn-modify'>
-                                    <FaPen/>
+                                    <FaPen />
+                                </Link>
+                                <h2>{item.prodTitle}</h2>
+                                <p>{item.Overview}</p>
+                                <p>owner: {item.owner}</p>
+                                <Link to={`/item/${item._id}`} className='btn' id={`${item_status}`}>Auction</Link>
+                            </div>
+                        </div>
+                    ))
+                }
+            </div>
+            <h2>My Outdated Items</h2>
+            <div className='cards-container grid'>
+                {
+                    passive_products.map(item => (
+                        <div className='itemCard grid' key={item._id}>
+                            <div className='cover-photo'>
+                                <img src={`${url_api}/uploads/${item.itemPhotos[0]}`} alt={`${item.prodTitle}`} />
+                            </div>
+                            <div className='item-desc grid'>
+                                <Link to={`/update/${item._id}`} className='btn-modify'>
+                                    <FaPen />
                                 </Link>
                                 <h2>{item.prodTitle}</h2>
                                 <p>{item.Overview}</p>

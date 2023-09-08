@@ -20,6 +20,20 @@ const sessionToken = localStorage.getItem('sessionToken');
 
 const Landing = () => {
     const [checkUser, setCheckUser] = useState({});
+
+    const isTokenExpired = () => {
+        const tokenParts = sessionToken.split('.');
+        if (tokenParts.length !== 3) {
+            return true;
+        }
+        const payload = JSON.parse(atob(tokenParts[1]));
+        if (!payload.exp) {
+            return true;
+        }
+        const expirationTime = payload.exp * 21600;
+        return Date.now() > expirationTime;
+    }
+
     const checkAdmin = async () => {
         const res = await axios({
             method: 'get',
@@ -30,22 +44,31 @@ const Landing = () => {
         });
         setCheckUser(res.data.user);
     };
+
+    const logOut = () => {
+        localStorage.removeItem("sessionToken");
+        window.location.reload(true);
+    };
+
     useEffect(() => {
+        sessionToken ? (
+            isTokenExpired() ? logOut() : console.log('bado niko')
+        ) : (console.log('no token found'));
         checkAdmin();
     }, []);
-    
+
     sessionToken ? (
         checkUser.isAdmin ? (
             window.location.href = '/admin'
-            ) : (<></>)
+        ) : (<></>)
     ) :
         (<></>)
-    
+
     return (
         <div className='homePage grid'>
             <section>
                 <Swiper
-                    modules={[ Pagination, Scrollbar, A11y, Autoplay]}
+                    modules={[Pagination, Scrollbar, A11y, Autoplay]}
                     spaceBetween={0}
                     slidesPerView={1}
                     pagination={{ clickable: true }}
@@ -54,7 +77,7 @@ const Landing = () => {
                     className='swiper'
                 >
                     <SwiperSlide className='swiperSlide'>
-                        <img src={img4} alt='img_cover'/>
+                        <img src={img4} alt='img_cover' />
                         <span className='grid'>
                             <h1>Biddit.com</h1>
                             <h2>Do you have something to sell</h2>
@@ -74,7 +97,7 @@ const Landing = () => {
                     </SwiperSlide>
                 </Swiper>
             </section>
-            <Auction/>
+            <Auction />
         </div>
     );
 }

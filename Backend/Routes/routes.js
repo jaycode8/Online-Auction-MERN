@@ -169,11 +169,7 @@ router.post('/login', async (req, res) => {
         if (foundUser) {
             const password_match = await bcrypt.compare(req.body.password, foundUser.password)
             if (password_match == true) {
-                let tokens = await jwt.sign({ user: foundUser._id }, jwtKey);
-                res.cookie("access-token", tokens, {
-                    maxAge: 60 * 60 * 24 * 10000,
-                    httpOnly: true
-                })
+                let tokens = await jwt.sign({ user: foundUser._id }, jwtKey, { expiresIn: '12h' });
                 res.json({ success: "true", msg: "Successfully loged in", token: tokens, loggedUser: foundUser });
             } else {
                 res.json({ success: "false", msg: "Password is incorrect" });

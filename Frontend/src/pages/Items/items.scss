@@ -515,6 +515,15 @@
                     height: 17rem;
                 }
             }
+            .nobid{
+                height: 7rem;
+                width: 8rem;
+                display: flex;
+                align-items: center;
+                p{
+                    font-size: .8rem !important;
+                }
+            }
         }
     }
     .bid{
@@ -531,6 +540,12 @@
                 border-radius: 0;
                 padding: .3rem;
                 right: .1rem;
+            }
+            .nobid{
+                width: 6.5rem;
+                p{
+                    font-size: .7rem !important;
+                }
             }
         }
     }

@@ -213,8 +213,8 @@ const SingleItem = () => {
                                                     <th>address</th>
                                                 </tr>
                                                 {
-                                                    bidList.map(list => (
-                                                        <tr>
+                                                    bidList.map((list, index) => (
+                                                        <tr key={index}>
                                                             <td>{list.user.user_name}</td>
                                                             <td>{list.amount}</td>
                                                             <td>{list.address}</td>
@@ -241,8 +241,8 @@ const SingleItem = () => {
                                                     <th>address</th>
                                                 </tr>
                                                 {
-                                                    bidList.map(list => (
-                                                        <tr>
+                                                    bidList.map((list, index) => (
+                                                        <tr key={index}>
                                                             <td>{list.user.user_name}</td>
                                                             <td>{list.amount}</td>
                                                             <td>{list.address}</td>
