@@ -30,7 +30,7 @@ const Landing = () => {
         if (!payload.exp) {
             return true;
         }
-        const expirationTime = payload.exp * 60*60*12;
+        const expirationTime = payload.exp * 60 * 60;
         return Date.now() > expirationTime;
     }
 
@@ -42,7 +42,14 @@ const Landing = () => {
                 Authorization: `Bearer ${sessionToken}`
             }
         });
-        setCheckUser(res.data.user);
+        if (res.data.success == "true") {
+            setCheckUser(res.data.user);
+        } else {
+            if (res.data.state == "expired") {
+                logOut();
+                console.log("mala")
+            }
+        }
     };
 
     const logOut = () => {

@@ -32,8 +32,8 @@ let storage = multer.diskStorage({
 let upload = multer({ storage: storage });
 
 const verifyToken = async (req, res, next) => {
+    const accessToken = req.headers.authorization.split(' ')[1]
     try {
-        const accessToken = req.headers.authorization.split(' ')[1]
         if (!accessToken) {
             return res.status(400).json({ success: 'false', msg: 'please sign in first' });
         } else {
@@ -45,7 +45,11 @@ const verifyToken = async (req, res, next) => {
             }
         }
     } catch (error) {
-        res.json({ success: 'false', msg: 'please sign in first' })
+        if (accessToken.length < 5) {
+            return res.status(400).json({ success: "false", msg: "please sign in first", state: "uptodate" })
+        } else {
+            return res.json({ success: 'false', msg: 'Token has expired.... please sign in', state: "expired" })
+        }
     }
 }
 
@@ -169,7 +173,7 @@ router.post('/login', async (req, res) => {
         if (foundUser) {
             const password_match = await bcrypt.compare(req.body.password, foundUser.password)
             if (password_match == true) {
-                let tokens = await jwt.sign({ user: foundUser._id }, jwtKey, { expiresIn: 60*60*12 });
+                let tokens = await jwt.sign({ user: foundUser._id }, jwtKey, { expiresIn: 60 * 60 * 12 });
                 res.json({ success: "true", msg: "Successfully loged in", token: tokens, loggedUser: foundUser });
             } else {
                 res.json({ success: "false", msg: "Password is incorrect" });
